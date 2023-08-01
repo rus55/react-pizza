@@ -10,6 +10,7 @@ import Skeleton from "../components/PizzaBlock/Skeleton";
 import PizzaBlock from "../components/PizzaBlock";
 import Pagination from "../components/Pagination";
 import {SearchContext} from "../App";
+import {isAllOf} from "@reduxjs/toolkit";
 
 const Home = () => {
     const navigate = useNavigate()
@@ -31,7 +32,7 @@ const Home = () => {
         dispatch(setCurrentPage(number))
     }
 
-    const fetchPizzas = () => {
+    const fetchPizzas = async () => {
         setIsloading(true)
 
         const sortBy = sort.sortProperty.replace('-', '')
@@ -39,12 +40,20 @@ const Home = () => {
         const category =  categoryId > 0 ? `category=${categoryId}` : ''
         const search =  searchValue ? `&search=${searchValue}` : ''
 
-        axios.get(`https://64ad3fd0b470006a5ec59bef.mockapi.io/items?page=${currentPage}&limit=4${category}&sortBy=${sortBy}&order=${order}${search}`)
-            .then(res => {
-                setItems(res.data)
-                setIsloading(false)
-            })
-
+        try {
+            const res = await axios.get(
+                `https://64ad3fd0b470006a5ec59bef.mockapi.io/items?page=${currentPage}&limit=4${category}&sortBy=${sortBy}&order=${order}${search}`
+            )
+            setItems(res.data)
+            setIsloading(false)
+        } catch (error) {
+            setIsloading(false)
+            console.log('ERROR', error)
+            alert('Ошибка при получении пицц')
+        } finally {
+            setIsloading(false)
+        }
+        
         window.scrollTo(0, 0)
     }
     
