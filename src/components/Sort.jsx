@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {setSort} from "../redux/slices/filterSlice";
 
@@ -14,6 +14,7 @@ export const sortList = [
 function Sort() {
     const dispatch = useDispatch()
     const sort = useSelector(state => state.filter.sort)
+    const sortRef = useRef()
 
     const [open, setOpen] = useState(false)
 
@@ -23,7 +24,7 @@ function Sort() {
     }
 
     return (
-        <div className="sort">
+        <div ref={sortRef} className="sort">
             <div className="sort__label">
                 <svg
                     width="10"
