@@ -8,16 +8,9 @@ import Home from "./pages/Home";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
-export const SearchContext = React.createContext()
-
 function App() {
-    const [searchValue, setSearchValue] = useState('')
-    const filter = useSelector((state) => state.filter.filter)
-    const dispatch = useDispatch()
-
     return (
         <div className="wrapper">
-            <SearchContext.Provider value={{searchValue, setSearchValue}}>
                 <Header/>
                 <div className="content">
                     <Routes>
@@ -26,7 +19,6 @@ function App() {
                         <Route path='*' element={<NotFound/>}/>
                     </Routes>
                 </div>
-            </SearchContext.Provider>
         </div>
     );
 }
