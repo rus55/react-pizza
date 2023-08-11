@@ -10,7 +10,7 @@ import PizzaBlock from "../components/PizzaBlock";
 import Pagination from "../components/Pagination";
 import {fetchPizzas, selectPizzaData} from "../redux/slices/pizzaSlice";
 
-const Home = () => {
+const Home: React.FC = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const isSearch = useRef(false)
@@ -18,12 +18,12 @@ const Home = () => {
     const {categoryId, sort, currentPage, searchValue} = useSelector(selectFilter)
     const {items, status} = useSelector(selectPizzaData)
 
-    const onChangeCategory = (id) => {
-        dispatch(setCategoryId(id))
+    const onChangeCategory = (idx: number) => {
+        dispatch(setCategoryId(idx))
     }
 
-    const onChangePage = (number) => {
-        dispatch(setCurrentPage(number))
+    const onChangePage = (page: number) => {
+        dispatch(setCurrentPage(page))
     }
 
     const getPizzas = async () => {
@@ -33,6 +33,7 @@ const Home = () => {
         const search = searchValue ? `&search=${searchValue}` : ''
 
         dispatch(
+            // @ts-ignore
             fetchPizzas({
                 sortBy,
                 order,
@@ -44,10 +45,28 @@ const Home = () => {
         window.scrollTo(0, 0)
     }
 
+    // Если изменили параметры и был первый рендер
+    useEffect(() => {
+        if (isMounted.current) {
+            const params = {
+                categoryId: categoryId > 0 ? categoryId : null,
+                sortProperty: sort.sortProperty,
+                currentPage
+            }
+
+            const queryString = qs.stringify(params, {skipNulls: true})
+
+            navigate(`/?${queryString}`)
+        }
+        if (!window.location.search) {
+            fetchPizzas()
+        }
+    }, [categoryId, sort.sortProperty, searchValue, currentPage])
+
     useEffect(() => {
         getPizzas();
 
-    }, [])
+    }, [categoryId, sort.sortProperty, searchValue, currentPage])
 
     // Если был первый рендер, то проверяем URL - параметры и сохраняем в Редаксе
     /* useEffect(() => {
@@ -74,18 +93,18 @@ const Home = () => {
         }, [categoryId, sort.sortProperty, searchValue, currentPage])
     */
 
-    const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index}/>)
-
-    const pizzas = items.map((obj) => (
+    const pizzas = items.map((obj: any) => (
         <Link key={obj.id} to={`/pizza/${obj.id}`}>
             <PizzaBlock {...obj}/>
         </Link>
     ))
 
+    const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index}/>)
+
     return (
         <div className="container">
             <div className="content__top">
-                <Categories value={categoryId} onChangeCategory={onChangeCategory}/>
+                <Categories value={categoryId} onChangeCategory={onChangeCategory} getCategories={()=>{}/>
                 <Sort/>
             </div>
             <h2 className="content__title">Все пиццы</h2>
