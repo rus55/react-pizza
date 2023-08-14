@@ -4,7 +4,7 @@ import {selectSort, setSort} from "../redux/slices/filterSlice";
 
 type SortItem = {
     name: string
-    sortProperty: string
+    sortProperty: 'rating' | 'title' | 'price' | '-rating' | '-title' | '-price'
 }
 export const sortList: SortItem[] = [
     {name: 'популярности (DESC)', sortProperty: 'rating'},

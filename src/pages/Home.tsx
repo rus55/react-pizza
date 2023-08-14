@@ -1,18 +1,19 @@
 import React, {useEffect, useRef, useState} from 'react';
 import qs from 'qs';
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {Link, useNavigate} from 'react-router-dom';
-import {selectFilter, setCategoryId, setCurrentPage, setFilters} from '../redux/slices/filterSlice';
+import FilterSlice, {selectFilter, setCategoryId, setCurrentPage, setFilters} from '../redux/slices/filterSlice';
 import Categories from "../components/Categories";
-import Sort, {sortList} from "../components/Sort";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import PizzaBlock from "../components/PizzaBlock";
 import Pagination from "../components/Pagination";
-import {fetchPizzas, selectPizzaData} from "../redux/slices/pizzaSlice";
+import {fetchPizzas, SearchPizzaParams, selectPizzaData} from "../redux/slices/pizzaSlice";
+import {useAppDispatch} from "../redux/store";
+import {sortList} from "../components/Sort";
 
 const Home: React.FC = () => {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const isSearch = useRef(false)
     const isMounted = useRef(false)
     const {categoryId, sort, currentPage, searchValue} = useSelector(selectFilter)
@@ -33,13 +34,12 @@ const Home: React.FC = () => {
         const search = searchValue ? `&search=${searchValue}` : ''
 
         dispatch(
-            // @ts-ignore
             fetchPizzas({
                 sortBy,
                 order,
                 category,
                 search,
-                currentPage
+                currentPage: String(currentPage)
             }))
 
         window.scrollTo(0, 0)
@@ -59,7 +59,7 @@ const Home: React.FC = () => {
             navigate(`/?${queryString}`)
         }
         if (!window.location.search) {
-            fetchPizzas()
+                dispatch(fetchPizzas({}))
         }
     }, [categoryId, sort.sortProperty, searchValue, currentPage])
 
@@ -68,30 +68,21 @@ const Home: React.FC = () => {
 
     }, [categoryId, sort.sortProperty, searchValue, currentPage])
 
-    // Если был первый рендер, то проверяем URL - параметры и сохраняем в Редаксе
-    /* useEffect(() => {
+    // Парсим параметры при первом рендере
+     useEffect(() => {
          if (window.location.search) {
-             const params = qs.parse(window.location.search.substring(1))
+             const params = (qs.parse(window.location.search.substring(1)) as unknown) as SearchPizzaParams
 
-             const sort = sortList.find(obj => obj.sortProperty === params.sortProperty)
+             const sort = sortList.find((obj) => obj.sortProperty === params.sortProperty)
 
-             dispatch(setFilters({
-                 ...params,
-                 sort
-             }))
+             if (sort) {
+                 params.sort = sort
+             }
+
+             dispatch(setFilters(params))
          }
-         isSearch.current = true
-     }, [])*/
-
-    // Если был первый рендер, то запрашиваем пиццы
-    /*
-        useEffect(() => {
-            if (!isSearch.current) {
-                getPizzas()
-            }
-            isSearch.current = false
-        }, [categoryId, sort.sortProperty, searchValue, currentPage])
-    */
+         isMounted.current = true
+     }, [])
 
     const pizzas = items.map((obj: any) => (
         <Link key={obj.id} to={`/pizza/${obj.id}`}>
