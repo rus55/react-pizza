@@ -237,11 +237,11 @@ body {
           }
         }
 
-        &--disabled {
+        &:disabled {
           opacity: 0.4;
           border-color: #787878;
 
-          &: active {
+          &:active {
             transform: none;
           }
 
@@ -251,6 +251,9 @@ body {
             svg path {
               fill: #787878;
             }
+          }
+          svg path {
+            fill: #787878;
           }
 
 
