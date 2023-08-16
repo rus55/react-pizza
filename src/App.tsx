@@ -1,10 +1,15 @@
-import './../src/scss/app.scss'
-import {Routes, Route, Outlet} from "react-router-dom";
-import NotFound from "./pages/NotFound";
-import Cart from "./pages/Cart";
+import React from 'react';
+import {Routes, Route} from "react-router-dom";
+
 import Home from "./pages/Home";
+// import Cart from "./pages/Cart";
 import FullPizza from "./pages/FullPizza";
+import NotFound from "./pages/NotFound";
+
+import './../src/scss/app.scss'
 import MainLayout from "./layouts/MainLayout";
+
+const Cart = React.lazy(() => import('./pages/Cart'));
 
 function App() {
     return (

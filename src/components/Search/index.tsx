@@ -1,7 +1,7 @@
-import React, {useCallback, useRef, useState} from 'react'
-import debounce from 'lodash.debounce'
+import React, {useCallback, useRef, useState} from 'react';
+import { debounce } from "lodash";
 import {useDispatch} from "react-redux";
-import styles from './Search.module.scss'
+import styles from './Search.module.scss';
 import {setSearchValue} from "../../redux/filter/slice";
 
 const Search: React.FC = () => {

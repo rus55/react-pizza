@@ -74,7 +74,6 @@ const Cart: React.FC = () => {
                                       stroke-linecap="round"
                                       stroke-linejoin="round"></path>
                             </svg>
-
                             <span>Вернуться назад</span>
                         </Link>
                         <div className="button pay-btn">
