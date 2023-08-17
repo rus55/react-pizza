@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from 'axios';
 
 const FullPizza: React.FC = () => {
@@ -13,14 +13,15 @@ const FullPizza: React.FC = () => {
 
     useEffect(() => {
         async function fetchPizza() {
-           try {
-               const {data} = await axios.get('https://64ad3fd0b470006a5ec59bef.mockapi.io/items/' + id)
-               setPizza(data)
-           } catch (error) {
-               alert('Ошибка при получении пиццы')
-               navigate('/')
-           }
+            try {
+                const {data} = await axios.get('https://64ad3fd0b470006a5ec59bef.mockapi.io/items/' + id)
+                setPizza(data)
+            } catch (error) {
+                alert('Ошибка при получении пиццы')
+                navigate('/')
+            }
         }
+
         fetchPizza()
     }, [])
 
@@ -32,6 +33,11 @@ const FullPizza: React.FC = () => {
             <img src={pizza.imageUrl}/>
             <h2>{pizza.title}</h2>
             <h4>{pizza.price}р</h4>
+            <Link to='/'>
+                <button className="button button--outline button--add">
+                    <span>Назад</span>
+                </button>
+            </Link>
         </div>
     );
 };
