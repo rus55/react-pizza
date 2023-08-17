@@ -28,10 +28,10 @@ const Home: React.FC = () => {
     }
 
     const getPizzas = async () => {
-        const sortBy = sort.sortProperty.replace('-', '')
-        const order = sort.sortProperty.includes('_') ? 'asc' : 'desc'
-        const category = categoryId > 0 ? `category=${categoryId}` : ''
-        const search = searchValue ? `&search=${searchValue}` : ''
+        const sortBy = sort.sortProperty.replace('-', '');
+        const order = sort.sortProperty.includes('_') ? 'asc' : 'desc';
+        const category = categoryId > 0 ? String(categoryId) : '';
+        const search = searchValue;
 
         dispatch(
             fetchPizzas({
@@ -84,11 +84,7 @@ const Home: React.FC = () => {
          }
          isMounted.current = true
      }, [])*/
-
-    const pizzas = items.map((obj: any) => (
-            <PizzaBlock key={obj.id} {...obj}/>
-    ))
-
+    const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
     const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index}/>)
 
     return (

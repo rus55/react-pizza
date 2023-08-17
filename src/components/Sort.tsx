@@ -4,8 +4,8 @@ import {Sort as SortType, SortPropertyEnum} from "../redux/filter/types";
 import {setSort} from "../redux/filter/slice";
 
 type SortItem = {
-    name: string
-    sortProperty: SortPropertyEnum
+    name: string;
+    sortProperty: SortPropertyEnum;
 }
 
 type SortProps = {
@@ -13,13 +13,13 @@ type SortProps = {
 }
 
 export const sortList: SortItem[] = [
-    {name: 'популярности (DESC)', sortProperty: SortPropertyEnum.PRICE_DESC},
-    {name: 'популярности (ASC)', sortProperty: SortPropertyEnum.PRICE_ASC},
-    {name: 'цене (DESC)', sortProperty: SortPropertyEnum.PRICE_DESC},
-    {name: 'цене (ASC)', sortProperty: SortPropertyEnum.PRICE_ASC},
-    {name: 'алфавиту (DESC)', sortProperty: SortPropertyEnum.TITLE_DESC},
-    {name: 'алфавиту (ASC)', sortProperty: SortPropertyEnum.TITLE_ASC}
-]
+    { name: 'популярности (DESC)', sortProperty: SortPropertyEnum.RATING_DESC },
+    { name: 'популярности (ASC)', sortProperty: SortPropertyEnum.RATING_ASC },
+    { name: 'цене (DESC)', sortProperty: SortPropertyEnum.PRICE_DESC },
+    { name: 'цене (ASC)', sortProperty: SortPropertyEnum.PRICE_ASC },
+    { name: 'алфавиту (DESC)', sortProperty: SortPropertyEnum.TITLE_DESC },
+    { name: 'алфавиту (ASC)', sortProperty: SortPropertyEnum.TITLE_ASC },
+];
 
 export const Sort: React.FC<SortProps> = React.memo(({value}) => {
     const dispatch = useDispatch()

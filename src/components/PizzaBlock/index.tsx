@@ -13,10 +13,17 @@ type PizzaBlockProps = {
     price: number,
     imageUrl: string,
     sizes: number[],
-    types: string[]
+    types: number[]
 }
 
-export const PizzaBlock: React.FC<PizzaBlockProps> = ({id, title, price, imageUrl, sizes, types}) => {
+export const PizzaBlock: React.FC<PizzaBlockProps> = ({
+                                                          id,
+                                                          title,
+                                                          price,
+                                                          imageUrl,
+                                                          sizes,
+                                                          types
+                                                      }) => {
     const dispatch = useDispatch()
     const cartItem = useSelector(selectCartItemById(id))
     const [activeType, setActiveType] = useState(0)
@@ -46,16 +53,16 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({id, title, price, imageUr
                         src={imageUrl}
                         alt="Pizza"
                     />
-                <h4 className="pizza-block__title">{title}</h4>
+                    <h4 className="pizza-block__title">{title}</h4>
                 </Link>
                 <div className="pizza-block__selector">
                     <ul>
                         {types.map((typeId) => (
                             <li
                                 key={typeId}
-                                onClick={() => setActiveType(+typeId)}
-                                className={activeType === +typeId ? 'active' : ''}>
-                                {typeNames[+typeId]}
+                                onClick={() => setActiveType(typeId)}
+                                className={activeType === typeId ? 'active' : ''}>
+                                {typeNames[typeId]}
                             </li>
                         ))}
                     </ul>
