@@ -47,7 +47,7 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
     return (
         <div className='pizza-block-wrapper'>
             <div className="pizza-block">
-                <Link key={id} to={`/pizza/${id}`}>
+                <Link key={id} to={`/react-pizza/pizza/${id}`}>
                     <img
                         className="pizza-block__image"
                         src={imageUrl}
@@ -57,7 +57,7 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
                 </Link>
                 <div className="pizza-block__selector">
                     <ul>
-                        {types.map((typeId) => (
+                        {types?.map((typeId) => (
                             <li
                                 key={typeId}
                                 onClick={() => setActiveType(typeId)}
@@ -67,7 +67,7 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
                         ))}
                     </ul>
                     <ul>
-                        {sizes.map((size, index) => (
+                        {sizes?.map((size, index) => (
                             <li
                                 key={size}
                                 onClick={() => setActiveSize(index)}

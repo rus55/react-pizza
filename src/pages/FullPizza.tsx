@@ -8,6 +8,7 @@ const FullPizza: React.FC = () => {
         title: string,
         price: number
     }>()
+
     const {id} = useParams()
     const navigate = useNavigate()
 
@@ -18,7 +19,7 @@ const FullPizza: React.FC = () => {
                 setPizza(data)
             } catch (error) {
                 alert('Ошибка при получении пиццы')
-                navigate('/')
+                navigate('/react-pizza')
             }
         }
 
@@ -33,7 +34,7 @@ const FullPizza: React.FC = () => {
             <img src={pizza.imageUrl}/>
             <h2>{pizza.title}</h2>
             <h4>{pizza.price}р</h4>
-            <Link to='/'>
+            <Link to='/react-pizza'>
                 <button className="button button--outline button--add">
                     <span>Назад</span>
                 </button>
